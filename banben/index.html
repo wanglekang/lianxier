@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/index.min.css">
+    <script src="./js/flexible.js"></script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div>
+            <div class="top">下拉刷新</div>
+            <div class="box">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+                <li>8</li>
+                <li>9</li>
+                <li>10</li>
+                <li>11</li>
+                <li>12</li>
+                <li>13</li>
+                <li>14</li>
+                <li>15</li>
+                <li>16</li>
+                <li>17</li>
+                <li>18</li>
+                <li>19</li>
+                <li>20</li>
+            </div>
+            <div class="bottom">上拉加载</div>
+        </div>
+    </div>
+    <script src="./js/better-scroll.js"></script>
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script>
+        var nbscroll = new BScroll(".wrap", {
+            probeType: 2
+        });
+        nbscroll.on("scroll", function() {
+            if (this.y < this.maxScrollY - 50) {
+                $(".bottom").html("释放加载").addClass("active");
+            } else {
+                $(".bottom").html("上拉刷新").removeClass("active");
+            }
+            if (this.y > 50) {
+                $(".top").html("释放刷新").addClass("active");
+            } else {
+                $(".top").html("下拉刷新").removeClass("active");
+            }
+        });
+        nbscroll.on("scrollEnd", function() {
+            if ($(".bottom").hasClass("active")) {
+                $(".bottom").html("上拉加载").removeClass("active");
+                bottoms();
+            } else if ($(".top").hasClass("active")) {
+                $(".top").html("下拉刷新").removeClass("active");
+                tops();
+            }
+        });
+
+        function bottoms() {
+            var str = "";
+            str += `<li>new一条</li>`;
+            $(".box").append(str);
+        }
+
+        function tops() {
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>
